@@ -1,1 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+woolworths:
+  id: 1
+  name: Woolworths
+  ynab_id: bdf2374e-33f1-4119-99f3-d5408056bdef

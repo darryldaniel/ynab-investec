@@ -1,8 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+coders_bakery:
   id: 1
   name: Coder's Bakery
   city: Cape Town
   country_id: 1
   merchant_category_id: 1
+
+with_ynab_id:
+  id: 2
+  name: Woolworths
+  city: Hillcrest
+  country_id: 1
+  merchant_category_id: 1
+  ynab_payee_id: 1

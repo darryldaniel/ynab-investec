@@ -1,0 +1,8 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+debit:
+  id: 1
+  name: Debit Card
+  investec_id: 12345
+  number: 1234567890
+  account_id: 1

@@ -1,0 +1,2 @@
+class YnabPayee < ApplicationRecord
+end

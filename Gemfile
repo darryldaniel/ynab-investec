@@ -71,3 +71,7 @@ group :test do
 end
 
 gem "dotenv-rails", "~> 2.8", :groups => [:development, :test]
+
+gem "ynab", "~> 2.1"
+
+gem "shopify-money", "~> 1.3"

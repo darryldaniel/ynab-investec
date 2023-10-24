@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  account_id: 1
+  amount: 22000
+  currency: "ZAR"
+  transaction_date: "2023-07-23T03:22:47.329Z"
+  merchant_id: 1
+  reference: "fixture"
+  transaction_type: "card"
+  card_id: 1

@@ -1,0 +1,8 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  name: Coder's Bakery
+  city: Cape Town
+  country_id: 1
+  merchant_category_id: 1

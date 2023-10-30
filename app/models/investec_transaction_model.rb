@@ -16,7 +16,7 @@ class InvestecTransactionModel
 
     def initialize(params)
         @account_id = params["accountId"]
-        @type = params["type"]
+        @type = params["type"] || ""
         @transaction_type = params["transactionType"]
         @status = params["status"]
         @description = params["description"]
@@ -26,7 +26,23 @@ class InvestecTransactionModel
         @value_date = params["valueDate"]
         @action_date = params["actionDate"]
         @transaction_date = params["transactionDate"]
-        @amount = params["amount"]
-        @running_balance = params["runningBalance"]
+        @amount = get_amount params
+        @running_balance = get_running_balance params
+    end
+
+    def get_amount(params)
+        Money.new(
+            params["amount"],
+            "ZAR")
+    end
+
+    def get_running_balance(params)
+        Money.new(
+            params["runningBalance"],
+            "ZAR")
+    end
+
+    def is_debit?
+        @type.downcase == "debit"
     end
 end

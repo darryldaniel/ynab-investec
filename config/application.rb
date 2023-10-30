@@ -23,7 +23,7 @@ module YnabInvestec
         #
         # config.time_zone = "Central Time (US & Canada)"
         # config.eager_load_paths << Rails.root.join("extras")
-        if ENV.fetch("RAILS_ENV") == "development"
+        if ENV.fetch("RAILS_ENV", nil) == "development"
             config.hosts << /[a-z0-9\-.]+\.ngrok\-free\.app/
         end
     end

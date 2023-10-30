@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_23_113414) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_29_092823) do
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "number", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "investec_id"
+    t.string "ynab_id"
     t.index ["number"], name: "index_accounts_on_number", unique: true
   end
 

@@ -4,7 +4,7 @@ class TransactionTest < ActiveSupport::TestCase
     test "create_from_params should create a new transaction" do
         account = accounts(:primary)
         card = cards(:debit)
-        params = get_transaction_params account_number: account.number, card_investec_id: card.investec_id
+        params = get_card_transaction_params account_number: account.number, card_investec_id: card.investec_id
         created_transaction = Transaction.create_from_params params
         transaction = Transaction.find_by(id: created_transaction.id)
         assert_equal params["reference"], transaction.reference

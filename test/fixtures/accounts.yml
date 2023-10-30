@@ -4,3 +4,12 @@ primary:
   id: 1
   name: Primary Account
   number: 1234567890
+  investec_id: 1234567890
+  ynab_id: 1bd0da24-d8a5-4392-af25-f7a977d442f4
+
+savings:
+  id: 2
+  name: Savings Account
+  number: 1234567891
+  investec_id: 1234567891
+  ynab_id: 51917367-76c6-47b2-b075-730676e16d83

@@ -37,8 +37,8 @@ class InvestecProviderTest < ActiveSupport::TestCase
 
     describe "#get_transactions" do
         it 'should get all of the transactions for the requested dates' do
-            transactions_response = get_transactions_response
-            account_id = transactions_response["data"]["transactions"][0]["accountId"]
+            account_id = Faker::Number.number(digits: 25).to_s
+            transactions_response = get_transactions_response account_id
             stubs = get_stubs do |stub|
                 stub.get(
                     "za/pb/v1/accounts/#{account_id}/transactions"
@@ -64,8 +64,8 @@ class InvestecProviderTest < ActiveSupport::TestCase
             expect(first_transaction.value_date).must_equal result["valueDate"]
             expect(first_transaction.action_date).must_equal result["actionDate"]
             expect(first_transaction.transaction_date).must_equal result["transactionDate"]
-            expect(first_transaction.amount).must_equal result["amount"]
-            expect(first_transaction.running_balance).must_equal result["runningBalance"]
+            expect(first_transaction.amount).must_equal Money.new(result["amount"], "ZAR")
+            expect(first_transaction.running_balance).must_equal Money.new(result["runningBalance"], "ZAR")
         end
     end
 
@@ -83,40 +83,17 @@ class InvestecProviderTest < ActiveSupport::TestCase
         {
             "data" => {
                 "accounts" => [
-                    {
-                        "accountId" => Faker::Number.number(digits: 20).to_s,
-                        "accountNumber" => Faker::Bank.account_number,
-                        "accountName" => Faker::Name.name,
-                        "referenceName" => Faker::Name.name,
-                        "productName" => "Private Bank Account",
-                        "kycCompliant" => true,
-                        "profileId" => Faker::Number.number(digits: 20).to_s,
-                        "profileName" => Faker::Name.name
-                    }
+                    get_investec_api_account
                 ]
             }
         }
     end
 
-    def get_transactions_response
+    def get_transactions_response(account_id)
         {
             "data" => {
                 "transactions" => [
-                    {
-                        "accountId" => Faker::Number.number(digits: 25).to_s,
-                        "type" => "DEBIT",
-                        "transactionType" => "CardPurchases",
-                        "status" => "POSTED",
-                        "description" => Faker::Lorem.words(number: 4).join(" "),
-                        "cardNumber" => Faker::Business.credit_card_number,
-                        "postedOrder" => Faker::Number.number(digits: 4).to_s,
-                        "postingDate" => Faker::Date.between(from: 1.week.ago.to_date, to: Date.today).strftime("%F"),
-                        "valueDate" => Faker::Date.between(from: 1.week.ago.to_date, to: Date.today).strftime("%F"),
-                        "actionDate" => Faker::Date.between(from: 1.week.ago.to_date, to: Date.today).strftime("%F"),
-                        "transactionDate" => Faker::Date.between(from: 1.week.ago.to_date, to: Date.today).strftime("%F"),
-                        "amount" => Faker::Commerce.price(range: 100.0..1000.0, as_string: true),
-                        "runningBalance" => Faker::Commerce.price(range: 100.0..1000.0, as_string: true)
-                    }
+                    get_investec_api_transaction(account_id)
                 ]
             }
         }

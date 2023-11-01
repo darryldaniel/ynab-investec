@@ -56,6 +56,11 @@ class YnabProvider
         end
     end
 
+    def get_payees
+        response = @ynab_client.payees.get_payees @budget_id
+        response.data.payees
+    end
+
     def self.get_import_id(
         amount,
         date,

@@ -27,6 +27,13 @@ class YnabSyncService
         log_result response
     end
 
+    def sync_payees
+        ynab_provider = YnabProvider.new
+        payees = ynab_provider.get_payees
+        YnabPayee.insert_all payees.map { |p| { name: p.name, ynab_id: p.id } }
+        log "Payees synced!"
+    end
+
     private
 
     def logger

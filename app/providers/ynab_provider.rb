@@ -50,10 +50,8 @@ class YnabProvider
             end
         }
         begin
-            p data
             @ynab_client.transactions.create_transaction @budget_id, data
         rescue YNAB::ApiError => e
-            binding.pry
             puts "Error creating transactions: #{e}"
         end
     end

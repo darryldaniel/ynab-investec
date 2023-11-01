@@ -74,9 +74,9 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
                     2)
                 mock_investec_provider = get_mock_investec_provider repeat_transactions
                 mock_ynab_provider = get_mock_ynab_provider ynab_transactions
+                ynab_sync_service = YnabSyncService.new
                 InvestecProvider.stub :new, mock_investec_provider do
                     YnabProvider.stub :new, mock_ynab_provider do
-                        ynab_sync_service = YnabSyncService.new
                         ynab_sync_service.sync_transactions
                     end
                 end

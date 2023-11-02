@@ -1,8 +1,6 @@
 require "test_helper"
 
 class YnabSyncServiceTest < ActiveSupport::TestCase
-
-
     describe "#sync_transactions" do
         let(:primary_account) { accounts(:primary) }
         let(:savings_account) { accounts(:savings) }
@@ -44,8 +42,8 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
                 ynab_transactions[1].account_id = savings_account.ynab_id
                 ynab_transactions[1].payee_id = primary_account.ynab_id
                 mock_investec_provider = get_mock_investec_provider(
-                    [ transfer_transactions[0] ],
-                    [ transfer_transactions[1] ]
+                    [transfer_transactions[0]],
+                    [transfer_transactions[1]]
                 )
                 mock_ynab_provider = get_mock_ynab_provider ynab_transactions
                 InvestecProvider.stub :new, mock_investec_provider do
@@ -112,7 +110,12 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
             mock_ynab_provider = Minitest::Mock.new
             mock_ynab_provider.expect(
                 :create_multiple_transactions,
-                nil,
+                OpenStruct.new({
+                                   "data" => OpenStruct.new({
+                                                                "duplicate_import_ids" => [],
+                                                                "transaction_ids" => []
+                                                            })
+                               }),
                 [
                     ynab_transactions
                 ])

@@ -14,6 +14,7 @@ class YnabProvider
     end
 
     def create_transaction(
+        account_id,
         amount,
         date,
         payee_name,
@@ -21,7 +22,7 @@ class YnabProvider
     )
         data = {
             transaction: {
-                account_id: ENV.fetch("YNAB_INVESTEC_ACCOUNT_ID"),
+                account_id: account_id,
                 amount: YnabProvider.get_ynab_amount(amount),
                 date: date,
                 payee_name: payee_name,

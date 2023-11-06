@@ -1,0 +1,14 @@
+<div class="flex-col">
+    <h1 class="text-xl">Map Merchants</h1>
+    <% @merchants.each do |merchant| %>
+        <div class="mb-5 flex-col">
+            <%= form_with url: update_ynab_mapping_merchants_path, method: :patch do |form| %>
+                <h2><%= merchant.name %></h2>
+                <%= form.label :payee, "Choose payee:" %>
+                <%= form.hidden_field :merchant_id, value: merchant.id %>
+                <%= form.select :payee, @ynab_payees.map { |payee| [payee.name, payee.id]} %>
+                <%= form.submit "Update", class: "text-gray-900 bg-white border border-gray-300 rounded-sm p-2" %>
+            <% end %>
+        </div>
+    <% end %>
+</div>

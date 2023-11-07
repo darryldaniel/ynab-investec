@@ -22,13 +22,16 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
         it "should save the transaction and create the transaction in YNAB" do
             account = accounts(:primary)
             card = cards(:debit)
-            params = get_card_transaction_params account_number: account.number, card_investec_id: card.investec_id
+
+            params = get_card_transaction_params account_number: account.number,
+                                                 card_investec_id: card.investec_id,
+                                                 cents_amount: 11999
             ynab_provider_mock = Minitest::Mock.new
             ynab_provider_mock.expect :create_transaction,
                                       nil,
                                       [
                                           account.ynab_id,
-                                          params["centsAmount"] / 100 * -1,
+                                          -119.99,
                                           params["dateTime"],
                                           params["merchant"]["name"],
                                           nil
@@ -59,7 +62,7 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
                             nil,
                             [
                                 account.ynab_id,
-                                params["centsAmount"] / 100 * -1,
+                                params["centsAmount"].to_f / 100 * -1,
                                 params["dateTime"],
                                 params["merchant"]["name"],
                                 ynab_payee.ynab_id

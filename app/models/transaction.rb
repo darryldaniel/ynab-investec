@@ -10,7 +10,7 @@ class Transaction < ApplicationRecord
             account_id: account_id,
             card_id: card_id,
             merchant_id: merchant.id,
-            amount: params["centsAmount"].to_i / 100,
+            amount: params["centsAmount"].to_f / 100,
             currency: params["currencyCode"].upcase,
             reference: params["reference"],
             transaction_type: params["type"],

@@ -12,11 +12,11 @@ module ActiveSupport
         fixtures :all
 
         # Add more helper methods to be used by all tests here...
-        def get_card_transaction_params(account_number:, card_investec_id:, currency_code: "ZAR")
+        def get_card_transaction_params(account_number:, card_investec_id:, currency_code: "ZAR", cents_amount: Faker::Number.number(digits: 5))
             {
                 "accountNumber" => account_number,
                 "dateTime" => "2023-10-24T08:40:15.338Z",
-                "centsAmount" => Faker::Number.number(digits: 5),
+                "centsAmount" => cents_amount,
                 "currencyCode" => currency_code,
                 "type" => "card",
                 "reference" => Faker::Lorem.words(number: 3).join(" "),

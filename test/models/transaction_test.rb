@@ -9,7 +9,7 @@ class TransactionTest < ActiveSupport::TestCase
             created_transaction = Transaction.create_from_params params, account.id, card.id
             transaction = Transaction.find_by(id: created_transaction.id)
             assert_equal params["reference"], transaction.reference
-            assert_equal params["centsAmount"] / 100, transaction.amount.value
+            assert_equal params["centsAmount"].to_f / 100, transaction.amount.value
             assert_equal "South African Rand", transaction.amount.currency.name
             assert_equal params["dateTime"], transaction.transaction_date.iso8601(3)
         end

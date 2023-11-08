@@ -2,7 +2,6 @@ require "logger"
 
 class YnabSyncService
     def sync_transactions
-        log "Starting sync..."
         investec_provider = InvestecProvider.new
         investec_provider.authenticate!
         ynab_accounts = Account
@@ -11,7 +10,6 @@ class YnabSyncService
         recent_transactions = []
         all_import_ids = []
         ynab_accounts.each do |account|
-            log "Getting transactions for #{account.name}"
             transactions_for_account = investec_provider.get_transactions(
                 account.investec_id,
                 7.days.ago,
@@ -24,7 +22,7 @@ class YnabSyncService
         ynab_provider = YnabProvider.new
         transactions_with_transfers = YnabTransactionModel.match_transfer_transactions recent_transactions
         response = ynab_provider.create_multiple_transactions transactions_with_transfers.map(&:to_save_transaction)
-        log_result response
+        get_result_message response.data
     end
 
     def sync_payees
@@ -44,20 +42,12 @@ class YnabSyncService
         logger.info message
     end
 
-    def log_result(response)
-        if !response.data.duplicate_import_ids.empty?
-            log "Duplicate Imports:"
-            log "-----"
-            response.data.duplicate_import_ids.each { |import_id| log import_id }
-        else
-            log "No duplicate imports"
-        end
-        if !response.data.transaction_ids.empty?
-            log "Transactions Created:"
-            log "-----"
-            response.data.transactions.each { |transaction| log transaction }
-        else
-            log "No transactions created"
-        end
+    def get_result_message(ynab_data)
+        messages = []
+        messages.push("Duplicate imports:")
+        messages.push(*ynab_data.duplicate_import_ids)
+        messages.push("Transactions created:")
+        messages.push(*ynab_data.transactions.map { |transaction| "#{transaction.date} #{transaction.payee_name} R#{transaction.amount.to_f / 100}" })
+        messages.join("\n")
     end
 end

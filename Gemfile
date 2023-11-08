@@ -80,3 +80,7 @@ gem "ynab", "~> 2.1"
 gem "shopify-money", "~> 1.3"
 
 gem "faraday", "~> 2.7"
+
+gem "whenever", "~> 1.0", require: false
+
+gem "cronitor", "~> 5.1.0"

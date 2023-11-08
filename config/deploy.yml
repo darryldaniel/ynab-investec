@@ -33,6 +33,7 @@ env:
     - INVESTEC_CLIENT_SECRET
     - APP_USERNAME
     - APP_PASSWORD
+    - CRONITOR_API_KEY
 
 # Use a different ssh user than root
 ssh:

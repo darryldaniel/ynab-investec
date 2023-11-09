@@ -54,7 +54,7 @@ COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
 # Update and run cron
-RUN bundle exec whenever --update-crontab
+# RUN bundle exec whenever --update-crontab
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \

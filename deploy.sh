@@ -1,0 +1,1 @@
+kamal envify && kamal deploy

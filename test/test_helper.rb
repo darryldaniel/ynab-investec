@@ -3,6 +3,10 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/autorun"
 
+class Minitest::Spec
+    include FactoryBot::Syntax::Methods
+end
+
 module ActiveSupport
     class TestCase
         # Run tests in parallel with specified workers

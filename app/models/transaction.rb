@@ -1,5 +1,5 @@
 class Transaction < ApplicationRecord
-    money_column :amount, currency_column: :currency
+    monetize :amount_cents
     belongs_to :account
     belongs_to :merchant
     belongs_to :card
@@ -10,7 +10,7 @@ class Transaction < ApplicationRecord
             account_id: account_id,
             card_id: card_id,
             merchant_id: merchant.id,
-            amount: params["centsAmount"].to_f / 100,
+            amount_cents: params["centsAmount"],
             currency: params["currencyCode"].upcase,
             reference: params["reference"],
             transaction_type: params["type"],

@@ -53,23 +53,23 @@ class YnabTransactionModel
         transaction,
         account_id,
         current_import_ids = [])
-        debit_multiplier = transaction.is_debit? ? -1 : 1
-        amount = transaction.amount.value * debit_multiplier
+        transaction_date = transaction.date.strftime("%F")
+        amount = transaction.amount.to_f
         import_id_occurrence = 1
         import_id = YnabProvider.get_import_id(
             amount,
-            transaction.transaction_date)
+            transaction_date)
         while current_import_ids.include? import_id
             import_id_occurrence += 1
             import_id = YnabProvider.get_import_id(
                 amount,
-                transaction.transaction_date,
+                transaction_date,
                 import_id_occurrence)
         end
         current_import_ids.push import_id
         YnabTransactionModel.new(
             account_id: account_id,
-            date: transaction.transaction_date,
+            date: transaction_date,
             type: transaction.type,
             amount: amount,
             payee_name: transaction.description,

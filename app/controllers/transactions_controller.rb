@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
         ynab_provider = YnabProvider.new
         ynab_provider.create_transaction(
             account_and_card.account_ynab_id,
-            transaction.amount.value * -1, # assume that the transaction is a debit
+            transaction.amount.to_f * -1, # assume that the transaction is a debit
             transaction.transaction_date.iso8601(3),
             transaction.merchant.name,
             ynab_payee_id)

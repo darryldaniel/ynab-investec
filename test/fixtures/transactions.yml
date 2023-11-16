@@ -3,7 +3,7 @@
 one:
   id: 1
   account_id: 1
-  amount: 22000
+  amount_cents: 22000
   currency: "ZAR"
   transaction_date: "2023-07-23T03:22:47.329Z"
   merchant_id: 1

@@ -50,6 +50,7 @@ gem "bootsnap", require: false
 group :development, :test do
     # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
     gem "debug", platforms: %i[ mri windows ]
+    gem "factory_bot_rails"
 end
 
 group :development do
@@ -77,10 +78,12 @@ gem "dotenv-rails", "~> 2.8", :groups => [:development, :test]
 
 gem "ynab", "~> 2.1"
 
-gem "shopify-money", "~> 1.3"
-
 gem "faraday", "~> 2.7"
 
 gem "whenever", "~> 1.0", require: false
 
 gem "cronitor", "~> 5.1.0"
+
+gem "investec_open_api", git: "https://github.com/Investec-Developer-Community/investec_open_api", ref: "29766baa"
+
+gem "money-rails", "~> 1.15"

@@ -16,11 +16,11 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
         describe "when there is are normal debit transactions" do
             it "should create a transaction in YNAB" do
                 transactions = []
-                3.times { transactions << InvestecTransactionModel.new(get_investec_api_transaction(primary_account.investec_id)) }
+                3.times { transactions << InvestecOpenApi::Models::Transaction.from_api(get_investec_api_transaction(primary_account.investec_id)) }
                 ynab_transactions = get_ynab_transactions transactions, primary_account.ynab_id
                 mock_investec_provider = get_mock_investec_provider transactions
                 mock_ynab_provider = get_mock_ynab_provider ynab_transactions
-                InvestecProvider.stub :new, mock_investec_provider do
+                InvestecOpenApi::Client.stub :new, mock_investec_provider do
                     YnabProvider.stub :new, mock_ynab_provider do
                         ynab_sync_service = YnabSyncService.new
                         ynab_sync_service.sync_transactions
@@ -35,7 +35,7 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
             it "should use the other account's id as the payee_id" do
                 transfer_transactions = get_transfer_transactions(
                     primary_account.investec_id,
-                    savings_account.investec_id).map { |t| InvestecTransactionModel.new(t) }
+                    savings_account.investec_id).map { |t| InvestecOpenApi::Models::Transaction.from_api(t) }
                 ynab_transactions = get_ynab_transactions transfer_transactions,
                                                           primary_account.ynab_id
                 ynab_transactions[0].payee_id = savings_account.ynab_id
@@ -46,7 +46,7 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
                     [transfer_transactions[1]]
                 )
                 mock_ynab_provider = get_mock_ynab_provider ynab_transactions
-                InvestecProvider.stub :new, mock_investec_provider do
+                InvestecOpenApi::Client.stub :new, mock_investec_provider do
                     YnabProvider.stub :new, mock_ynab_provider do
                         ynab_sync_service = YnabSyncService.new
                         ynab_sync_service.sync_transactions
@@ -59,7 +59,7 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
 
         describe "when there are 2 transactions on the same day with the same amount" do
             it "should increment the occurrence number of the import_id" do
-                api_transaction = InvestecTransactionModel.new(get_investec_api_transaction(primary_account.investec_id))
+                api_transaction = InvestecOpenApi::Models::Transaction.from_api(get_investec_api_transaction(primary_account.investec_id))
                 repeat_transactions = [
                     api_transaction,
                     api_transaction
@@ -67,13 +67,13 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
                 ynab_transactions = get_ynab_transactions repeat_transactions,
                                                           primary_account.ynab_id
                 ynab_transactions[1].import_id = YnabProvider.get_import_id(
-                    api_transaction.amount.value * -1,
-                    api_transaction.transaction_date,
+                    api_transaction.amount.to_f,
+                    api_transaction.date.strftime("%F"),
                     2)
                 mock_investec_provider = get_mock_investec_provider repeat_transactions
                 mock_ynab_provider = get_mock_ynab_provider ynab_transactions
                 ynab_sync_service = YnabSyncService.new
-                InvestecProvider.stub :new, mock_investec_provider do
+                InvestecOpenApi::Client.stub :new, mock_investec_provider do
                     YnabProvider.stub :new, mock_ynab_provider do
                         ynab_sync_service.sync_transactions
                     end
@@ -89,19 +89,23 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
         )
             mock_investec_provider = Minitest::Mock.new
             mock_investec_provider.expect :authenticate!, nil
-            mock_investec_provider.expect :get_transactions,
+            mock_investec_provider.expect :transactions,
                                           primary_account_transactions,
                                           [
                                               primary_account.investec_id,
-                                              7.days.ago,
-                                              Date.today
+                                              {
+                                                    from_date: 7.days.ago.strftime("%F"),
+                                                    to_date: Date.today.strftime("%F"),
+                                              }
                                           ]
-            mock_investec_provider.expect :get_transactions,
+            mock_investec_provider.expect :transactions,
                                           savings_account_transactions,
                                           [
                                               savings_account.investec_id,
-                                              7.days.ago,
-                                              Date.today
+                                              {
+                                                  from_date: 7.days.ago.strftime("%F"),
+                                                  to_date: Date.today.strftime("%F"),
+                                              }
                                           ]
             mock_investec_provider
         end
@@ -113,7 +117,7 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
                 OpenStruct.new({
                                    "data" => OpenStruct.new({
                                                                 "duplicate_import_ids" => [],
-                                                                "transaction_ids" => []
+                                                                "transactions" => []
                                                             })
                                }),
                 [
@@ -124,18 +128,18 @@ class YnabSyncServiceTest < ActiveSupport::TestCase
 
         def get_ynab_transactions(transactions, account_id)
             transactions.map do |t|
-                debit_multiplier = t.is_debit? ? -1 : 1
-                amount = t.amount.value * debit_multiplier
+                amount = t.amount.to_f
+                transaction_date = t.date.strftime("%F")
                 OpenStruct.new({
                                    account_id: account_id,
-                                   date: t.transaction_date,
+                                   date: transaction_date,
                                    type: t.type,
                                    amount: amount,
                                    payee_id: nil,
                                    payee_name: t.description,
                                    import_id: YnabProvider.get_import_id(
                                        amount,
-                                       t.transaction_date),
+                                       transaction_date),
                                    cleared: "Cleared",
                                })
             end

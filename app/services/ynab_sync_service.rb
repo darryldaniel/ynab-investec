@@ -2,7 +2,7 @@ require "logger"
 
 class YnabSyncService
     def sync_transactions
-        investec_provider = InvestecProvider.new
+        investec_provider = InvestecOpenApi::Client.new
         investec_provider.authenticate!
         ynab_accounts = Account
                             .select(:ynab_id, :investec_id, :name)
@@ -10,10 +10,12 @@ class YnabSyncService
         recent_transactions = []
         all_import_ids = []
         ynab_accounts.each do |account|
-            transactions_for_account = investec_provider.get_transactions(
+            transactions_for_account = investec_provider.transactions(
                 account.investec_id,
-                7.days.ago,
-                Date.today)
+                {
+                    from_date: 7.days.ago.strftime("%F"),
+                    to_date: Date.today.strftime("%F"),
+                })
             ynab_account_transactions = transactions_for_account.map { |t|
                 YnabTransactionModel.from_transaction(t, account.ynab_id, all_import_ids)
             }

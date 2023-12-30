@@ -1,1 +1,2 @@
-kamal envify && kamal deploy
+kamal envify --env production
+kamal deploy

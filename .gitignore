@@ -9,7 +9,7 @@
 
 # Ignore all environment files (except templates).
 /.env.*.local
-!/.env*.erb
+!/.env.production.erb
 .env
 
 # Ignore all logfiles and tempfiles.

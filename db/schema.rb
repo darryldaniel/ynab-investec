@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_30_053113) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_07_091338) do
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "number", null: false
@@ -81,6 +81,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_30_053113) do
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["card_id"], name: "index_transactions_on_card_id"
     t.index ["merchant_id"], name: "index_transactions_on_merchant_id"
+  end
+
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "ynab_payees", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

@@ -2,6 +2,11 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resource :transaction, only: [:create]
+  resource :session
+  resource :registration
+  resource :password_reset
+  resource :password
+
   get "merchants/map-ynab" => "merchants#map_ynab", as: :map_ynab_merchants
   patch "merchants/ynab-mapping" => "merchants#update_ynab_mapping", as: :update_ynab_mapping_merchants
 
@@ -10,5 +15,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "main#index"
 end

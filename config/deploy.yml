@@ -6,7 +6,12 @@ image: dndaniel/ynab-investec
 
 # Deploy to these servers.
 servers:
-  - 192.168.3.3
+  web:
+    hosts:
+      - 192.168.3.3
+    labels:
+      traefik.http.routers.ynab_investec.entrypoints: web
+      traefik.http.routers.ynab_investec.rule: Host(`ynab-investec.darryldaniel.dev`)
 
 # Credentials for your image host.
 registry:
@@ -74,10 +79,10 @@ builder:
 #       - data:/data
 
 # Configure custom arguments for Traefik
-# traefik:
-#   args:
-#     accesslog: true
-#     accesslog.format: json
+traefik:
+  args:
+    entrypoints.web.address: ":80"
+
 
 # Configure a custom healthcheck (default is /up on port 3000)
 # healthcheck:

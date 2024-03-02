@@ -43,7 +43,7 @@ class YnabProvider
                     account_id: t.account_id,
                     amount: YnabProvider.get_ynab_amount(t.amount),
                     date: Date.parse(t.date),
-                    payee_name: t.payee_name,
+                    payee_name: t.payee_name.slice(0, 90),
                     payee_id: t.payee_id,
                     import_id: t.import_id,
                     cleared: "Cleared"
@@ -53,7 +53,8 @@ class YnabProvider
         begin
             @ynab_client.transactions.create_transaction @budget_id, data
         rescue YNAB::ApiError => e
-            puts "Error creating transactions: #{e}"
+            puts "Error creating transactions:"
+            puts JSON.pretty_generate e.response_body
         end
     end
 

@@ -42,7 +42,7 @@ YNAB_ACCESS_TOKEN=
 ### Create the database user
 Run the following in MySQL:
 ```mysql
-create user 'banking'@'localhost' identified by 'banking';
+create user 'banking'@'localhost' identified with mysql_native_password by 'banking';
 grant all privileges on banking_development.* to 'banking'@'localhost' with grant option;
 grant all privileges on banking_test.* to 'banking'@'localhost' with grant option;
 flush privileges;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_07_091338) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_11_032520) do
   create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "number", null: false
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_07_091338) do
     t.bigint "ynab_payee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "exclude_from_ynab_mapping", default: false
     t.index ["country_id"], name: "index_merchants_on_country_id"
     t.index ["merchant_category_id"], name: "index_merchants_on_merchant_category_id"
     t.index ["name"], name: "index_merchants_on_name", unique: true

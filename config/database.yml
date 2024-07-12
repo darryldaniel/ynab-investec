@@ -51,5 +51,3 @@ test:
 #
 production:
   url: <%= ENV["DATABASE_URL"] %>
-  ssl_mode: verify_identity
-  sslca: "/etc/ssl/certs/ca-certificates.crt"

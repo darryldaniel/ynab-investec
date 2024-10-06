@@ -10,8 +10,10 @@ servers:
     hosts:
       - 192.168.3.3
     labels:
-      traefik.http.routers.ynab_investec.entrypoints: web
-      traefik.http.routers.ynab_investec.rule: Host(`ynab-investec.darryldaniel.dev`)
+      traefik.http.routers.ynab-investec-web.entrypoints: web
+      traefik.http.routers.ynab-investec-web.rule: Host(`ynab-investec.darryldaniel.dev`)
+      traefik.http.routers.ynab-investec-web.service: ynab-investec-web
+      traefik.http.services.ynab-investec-web.loadbalancer.server.port: "3000"
 
 # Credentials for your image host.
 registry:

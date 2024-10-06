@@ -9,7 +9,7 @@ gem "rails", "~> 7.1.2"
 gem "sprockets-rails"
 
 # Use mysql as the database for Active Record
-gem "trilogy", "~> 2.6"
+gem "trilogy", "~> 2.8"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
@@ -72,6 +72,7 @@ group :test do
     gem "selenium-webdriver"
     gem "faker", "~> 3.2"
     gem "minitest-spec-rails"
+    gem "mocha"
 end
 
 gem "dotenv-rails", "~> 2.8", :groups => [:development, :test]
@@ -84,6 +85,8 @@ gem "whenever", "~> 1.0", require: false
 
 gem "cronitor", "~> 5.1.0"
 
-gem "investec_open_api", git: "https://github.com/Investec-Developer-Community/investec_open_api", ref: "29766baa"
+gem "investec_open_api", "~> 2.0.0"
 
 gem "money-rails", "~> 1.15"
+
+gem "lograge"

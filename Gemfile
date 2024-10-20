@@ -85,7 +85,7 @@ gem "whenever", "~> 1.0", require: false
 
 gem "cronitor", "~> 5.1.0"
 
-gem "investec_open_api", "~> 2.0.0"
+gem "investec_open_api", git: "https://github.com/Investec-Developer-Community/investec_open_api", ref: "0196a5"
 
 gem "money-rails", "~> 1.15"
 

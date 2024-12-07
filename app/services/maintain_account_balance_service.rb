@@ -19,9 +19,18 @@ class MaintainAccountBalanceService
         current_savings_balance = savings_account_balance.current_balance.cents / 100
         puts "Cheque Available: #{available_cheque_balance}"
         puts "Current Savings: #{current_savings_balance}"
-        return if current_savings_balance < available_cheque_balance
+        check_and_transfer_to_cheque_if_applicable available_cheque_balance,
+                                                   current_savings_balance
+        check_and_transfer_to_savings_if_applicable available_cheque_balance
+    end
 
+    def check_and_transfer_to_cheque_if_applicable(
+        available_cheque_balance,
+        current_savings_balance
+    )
         if available_cheque_balance < 2_000
+            return if current_savings_balance < 2_000
+
             puts "Transferring R2000 to Cheque"
             @investec_client.transfer_multiple(
                 @savings_account.investec_id,
@@ -34,9 +43,10 @@ class MaintainAccountBalanceService
                     )
                 ]
             )
-            return
         end
+    end
 
+    def check_and_transfer_to_savings_if_applicable(available_cheque_balance)
         if available_cheque_balance > 5_000
             amount_to_transfer = ((available_cheque_balance - 4000) / 1000) * 1000
             puts "Transferring R#{amount_to_transfer} to Savings"

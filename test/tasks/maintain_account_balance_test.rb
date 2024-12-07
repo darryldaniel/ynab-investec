@@ -67,6 +67,28 @@ class MaintainAccountBalanceTest < ActiveSupport::TestCase
             sut = create_service
             sut.run
         end
+
+        describe "and the savings balance is less than R2000" do
+            it "should do nothing" do
+                @investec_client_mock.expects(:balance).with(@cheque_account.investec_id)
+                                     .returns(
+                                         get_mock_balance(
+                                             50_500,
+                                             2_000
+                                         )
+                                     )
+                @investec_client_mock.expects(:balance).with(@savings_account.investec_id)
+                                     .returns(
+                                         get_mock_balance(
+                                             1_000,
+                                             1_000
+                                         )
+                                     )
+                mock_transfer = mock
+                sut = create_service
+                sut.run
+            end
+        end
     end
 
     describe "when the cheque available balance is more than R 55,000" do
@@ -101,41 +123,6 @@ class MaintainAccountBalanceTest < ActiveSupport::TestCase
                                  )
             sut = create_service
             sut.run
-        end
-
-        describe "Cheque account available balance is R55,001" do
-            it "should transfer R1,000 to savings" do
-                @investec_client_mock.expects(:balance).with(@cheque_account.investec_id)
-                                     .returns(
-                                         get_mock_balance(
-                                             55_001,
-                                             6_000
-                                         )
-                                     )
-                @investec_client_mock.expects(:balance).with(@savings_account.investec_id)
-                                     .returns(
-                                         get_mock_balance(
-                                             20_000,
-                                             20_000
-                                         )
-                                     )
-                mock_transfer = mock
-                InvestecOpenApi::Models::Transfer.expects(:new)
-                                                 .with(
-                                                     @savings_account.investec_id,
-                                                     1_000.00,
-                                                     "Moving R1000 to savings",
-                                                     "Receiving R1000 from cheque"
-                                                 )
-                                                 .returns(mock_transfer)
-                @investec_client_mock.expects(:transfer_multiple)
-                                     .with(
-                                         @cheque_account.investec_id,
-                                         [mock_transfer]
-                                     )
-                sut = create_service
-                sut.run
-            end
         end
     end
 

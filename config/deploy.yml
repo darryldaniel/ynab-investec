@@ -9,11 +9,10 @@ servers:
   web:
     hosts:
       - 192.168.3.3
-    labels:
-      traefik.http.routers.ynab-investec-web.entrypoints: web
-      traefik.http.routers.ynab-investec-web.rule: Host(`ynab-investec.darryldaniel.dev`)
-      traefik.http.routers.ynab-investec-web.service: ynab-investec-web
-      traefik.http.services.ynab-investec-web.loadbalancer.server.port: "3000"
+
+proxy:
+  host: ynab-investec.darryldaniel.dev
+  app_port: 3000
 
 # Credentials for your image host.
 registry:
@@ -49,14 +48,7 @@ ssh:
 
 # Configure builder setup.
 builder:
-  multiarch: false
-#   args:
-#     RUBY_VERSION: 3.2.0
-#   secrets:
-#     - GITHUB_TOKEN
-#   remote:
-#     arch: amd64
-#     host: ssh://app@192.168.0.1
+  arch: arm64
 
 # Use accessory services (secrets come from .env).
 accessories:
@@ -80,17 +72,6 @@ accessories:
 #     port: 6379
 #     directories:
 #       - data:/data
-
-# Configure custom arguments for Traefik
-traefik:
-  args:
-    entrypoints.web.address: ":80"
-
-
-# Configure a custom healthcheck (default is /up on port 3000)
-# healthcheck:
-#   path: /healthz
-#   port: 4000
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old

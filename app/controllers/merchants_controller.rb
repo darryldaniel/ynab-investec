@@ -27,7 +27,7 @@ class MerchantsController < ApplicationController
             return
         end
         merchant = Merchant.find(params[:merchant_id])
-        if params[:exclude]
+        if params[:exclude].to_i.positive?
             merchant.update(exclude_from_ynab_mapping: true)
         else
             merchant.update(ynab_payee_id: params[:payee])

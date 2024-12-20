@@ -90,3 +90,5 @@ gem "investec_open_api", git: "https://github.com/Investec-Developer-Community/i
 gem "money-rails", "~> 1.15"
 
 gem "lograge"
+
+gem "solid_queue", "~> 1.1.0"

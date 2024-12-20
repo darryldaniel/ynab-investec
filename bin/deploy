@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
 
-kamal envify
 kamal deploy

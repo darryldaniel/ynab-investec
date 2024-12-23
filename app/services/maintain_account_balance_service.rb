@@ -28,22 +28,21 @@ class MaintainAccountBalanceService
         available_cheque_balance,
         current_savings_balance
     )
-        if available_cheque_balance < 2_000
-            return if current_savings_balance < 2_000
+        return if available_cheque_balance >= 2000 || current_savings_balance < 2000
 
-            puts "Transferring R2000 to Cheque"
-            @investec_client.transfer_multiple(
-                @savings_account.investec_id,
-                [
-                    InvestecOpenApi::Models::Transfer.new(
-                        @cheque_account.investec_id,
-                        2_000.00,
-                        "Moving R2000 to cheque",
-                        "Receiving R2000 from savings"
-                    )
-                ]
-            )
-        end
+        transfer_amount = ((3_000 - available_cheque_balance) / 1_000) * 1_000
+        puts "Transferring R#{transfer_amount} to Cheque"
+        @investec_client.transfer_multiple(
+            @savings_account.investec_id,
+            [
+                InvestecOpenApi::Models::Transfer.new(
+                    @cheque_account.investec_id,
+                    transfer_amount.to_f,
+                    "Moving R#{transfer_amount} to cheque",
+                    "Receiving R#{transfer_amount} from savings"
+                )
+            ]
+        )
     end
 
     def check_and_transfer_to_savings_if_applicable(available_cheque_balance)

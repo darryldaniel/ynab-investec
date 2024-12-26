@@ -31,6 +31,7 @@ class MaintainAccountBalanceService
         return if available_cheque_balance >= 2000 || current_savings_balance < 2000
 
         transfer_amount = ((3_000 - available_cheque_balance) / 1_000) * 1_000
+        transfer_amount = transfer_amount < 2_000 ? 2_000 : transfer_amount
         puts "Transferring R#{transfer_amount} to Cheque"
         @investec_client.transfer_multiple(
             @savings_account.investec_id,

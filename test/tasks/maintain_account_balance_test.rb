@@ -91,6 +91,29 @@ class MaintainAccountBalanceTest < ActiveSupport::TestCase
         end
     end
 
+    describe "when the cheque balance is between R51,000 and R52,000" do
+        it "should transfer R2000 from savings" do
+            mock_cheque_balance(51_600, 1_600)
+            mock_savings_balance(20_000, 20_000)
+            mock_transfer = mock
+            InvestecOpenApi::Models::Transfer.expects(:new)
+                                             .with(
+                                                 @cheque_account.investec_id,
+                                                 2_000.00,
+                                                 "Moving R2000 to cheque",
+                                                 "Receiving R2000 from savings"
+                                             )
+                                             .returns(mock_transfer)
+            @investec_client_mock.expects(:transfer_multiple)
+                                 .with(
+                                     @savings_account.investec_id,
+                                     [mock_transfer]
+                                 )
+            sut = create_service
+            sut.run
+        end
+    end
+
     describe "when the cheque available balance is more than R 55,000" do
         it "should transfer the available balance - R 54,000 rounded down to the nearest R1000 to savings" do
             mock_cheque_balance(56_500, 7_000)

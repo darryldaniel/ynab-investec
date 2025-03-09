@@ -18,7 +18,8 @@ class YnabProvider
         amount,
         date,
         payee_name,
-        payee_id
+        payee_id,
+        memo = nil
     )
         data = {
             transaction: {
@@ -26,7 +27,8 @@ class YnabProvider
                 amount: YnabProvider.get_ynab_amount(amount),
                 date: date,
                 payee_name: payee_name,
-                payee_id: payee_id
+                payee_id: payee_id,
+                memo:
             }
         }
         begin

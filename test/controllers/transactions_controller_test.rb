@@ -34,7 +34,8 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
                                           -119.99,
                                           params["dateTime"],
                                           params["merchant"]["name"],
-                                          nil
+                                          nil,
+                                          "Original Merchant: #{params["merchant"]["name"]}"
                                       ]
             YnabProvider.stub :new, ynab_provider_mock do
                 post transaction_url,
@@ -65,7 +66,8 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
                                 params["centsAmount"].to_f / 100 * -1,
                                 params["dateTime"],
                                 params["merchant"]["name"],
-                                ynab_payee.ynab_id
+                                ynab_payee.ynab_id,
+                                "Original Merchant: #{params["merchant"]["name"]}"
                             ]
                 YnabProvider.stub :new, mock do
                     post transaction_url,

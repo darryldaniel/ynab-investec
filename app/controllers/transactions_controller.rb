@@ -15,7 +15,9 @@ class TransactionsController < ApplicationController
             transaction.amount.to_f * -1, # assume that the transaction is a debit
             transaction.transaction_date.iso8601(3),
             transaction.merchant.name,
-            ynab_payee_id)
+            ynab_payee_id,
+            get_memo_for_transaction
+        )
         render json: "created", status: :created
     end
 
@@ -41,5 +43,9 @@ class TransactionsController < ApplicationController
 
     def transaction_in_usd?(params)
         params["currencyCode"].downcase == "usd"
+    end
+
+    def get_memo_for_transaction
+        "Original Merchant: #{params["merchant"]["name"]}"
     end
 end

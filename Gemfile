@@ -77,7 +77,7 @@ group :test do
     gem "simplecov", require: false
 end
 
-gem "ynab", "~> 2.1"
+gem "ynab", "~> 3.6"
 
 gem "faraday", "~> 2.7"
 

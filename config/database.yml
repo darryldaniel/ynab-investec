@@ -50,4 +50,5 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
+  encoding: utf8mb4
   url: <%= ENV["DATABASE_URL"] %>

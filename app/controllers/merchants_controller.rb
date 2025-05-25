@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class MerchantsController < ApplicationController
+    def show
+        @merchant = Merchant.find_by(id: params[:id])
+    end
 
-    def map_ynab
+    def index
         unless user_signed_in?
             redirect_to new_session_path
             return
@@ -18,7 +21,7 @@ class MerchantsController < ApplicationController
         end
         merchant = Merchant.find(params[:merchant_id])
         merchant.update(exclude_from_ynab_mapping: true)
-        redirect_to map_ynab_merchants_path
+        redirect_to merchant_path(merchant)
     end
 
     def update_ynab_mapping
@@ -32,6 +35,6 @@ class MerchantsController < ApplicationController
         else
             merchant.update(ynab_payee_id: params[:payee])
         end
-        redirect_to map_ynab_merchants_path
+        redirect_to merchant_path(merchant)
     end
 end

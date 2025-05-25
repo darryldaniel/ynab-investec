@@ -53,9 +53,9 @@
                                     class: current_page?(root_path) ?
                                                "bg-yellow-600 text-white rounded-md px-3 py-2 text-sm font-medium"
                                                : "hover:bg-yellow-600 hover:text-white rounded-md px-3 py-2 text-sm font-medium" %>
-                        <%= link_to "Map Merchants",
-                                    map_ynab_merchants_path,
-                                    class: current_page?(map_ynab_merchants_path) ?
+                        <%= link_to "Merchants",
+                                    merchants_path,
+                                    class: current_page?(merchants_path) ?
                                                "bg-yellow-600 text-white rounded-md px-3 py-2 text-sm font-medium"
                                                : "hover:bg-yellow-600 hover:text-white rounded-md px-3 py-2 text-sm font-medium" %>
                     </div>
@@ -85,9 +85,9 @@
                         class: current_page?(root_path) ?
                                    "bg-yellow-600 text-white block rounded-md px-3 py-2 text-base font-medium"
                                    : "hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" %>
-            <%= link_to "Map Merchants",
-                        map_ynab_merchants_path,
-                        class: current_page?(map_ynab_merchants_path) ?
+            <%= link_to "Merchants",
+                        merchants_path,
+                        class: current_page?(merchants_path) ?
                                    "bg-yellow-600 text-white block rounded-md px-3 py-2 text-base font-medium"
                                    : "hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" %>
             <% if user_signed_in? %>

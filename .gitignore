@@ -45,3 +45,5 @@
 # Test coverage
 /coverage
 
+/card-code/env.json
+/card-code/.env.prod

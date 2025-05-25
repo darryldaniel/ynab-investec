@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   resource :registration
   resource :password_reset
   resource :password
+  resources :merchants, only: [:index, :show]
 
-  get "merchants/map-ynab" => "merchants#map_ynab", as: :map_ynab_merchants
   patch "merchants/ynab-mapping" => "merchants#update_ynab_mapping", as: :update_ynab_mapping_merchants
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

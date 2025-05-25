@@ -1,0 +1,4 @@
+<%= turbo_frame_tag dom_id(@merchant) do %>
+    <h1><%= @merchant.name %></h1>
+    <p>Status: <%= @merchant.ynab_payee_id.nil? ? "Unmapped" : "Mapped" %></p>
+<% end %>

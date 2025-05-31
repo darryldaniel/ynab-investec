@@ -11,7 +11,9 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Dosis', 'Inter var', ...defaultTheme.fontFamily.sans],
+                sans: ['Nunito', 'Inter var', ...defaultTheme.fontFamily.sans],
+                serif: ['Instrument Serif', ...defaultTheme.fontFamily.serif],
+                mono: ['Space Mono', ...defaultTheme.fontFamily.mono],
             },
         },
     },

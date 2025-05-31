@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :merchants, only: [:index, :show]
 
   patch "merchants/ynab-mapping" => "merchants#update_ynab_mapping", as: :update_ynab_mapping_merchants
+  patch "merchants/exclude_from_mapping" => "merchants#exclude_from_mapping", as: :exclude_from_merchants_mapping
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

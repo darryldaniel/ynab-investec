@@ -14,12 +14,12 @@ class MerchantsController < ApplicationController
         @ynab_payees = YnabPayee.all.sort_by(&:name)
     end
 
-    def exclude_from_ynab_mapping
+    def exclude_from_mapping
         unless user_signed_in?
             redirect_to new_session_path
             return
         end
-        merchant = Merchant.find(params[:merchant_id])
+        merchant = Merchant.find_by(id: params[:merchant_id])
         merchant.update(exclude_from_ynab_mapping: true)
         redirect_to merchant_path(merchant)
     end
@@ -29,12 +29,8 @@ class MerchantsController < ApplicationController
             redirect_to new_session_path
             return
         end
-        merchant = Merchant.find(params[:merchant_id])
-        if params[:exclude].to_i.positive?
-            merchant.update(exclude_from_ynab_mapping: true)
-        else
-            merchant.update(ynab_payee_id: params[:payee])
-        end
+        merchant = Merchant.find_by(id: params[:merchant_id])
+        merchant.update(ynab_payee_id: params[:payee])
         redirect_to merchant_path(merchant)
     end
 end

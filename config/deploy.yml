@@ -8,7 +8,7 @@ image: dndaniel/ynab-investec
 servers:
   web:
     hosts:
-      - 192.168.3.3
+      - 84.8.138.196
 
 proxy:
   host: ynab-investec.darryldaniel.dev
@@ -44,7 +44,7 @@ env:
 
 # Use a different ssh user than root
 ssh:
-  user: darryldaniel
+  user: ubuntu
 
 # Configure builder setup.
 builder:
@@ -54,7 +54,7 @@ builder:
 accessories:
   db:
     image: mysql:8.3
-    host: 192.168.3.3
+    host: 84.8.138.196
     port: 3306
     env:
       clear:

@@ -2,7 +2,8 @@
 
 # If running the rails server then create or migrate existing database
 if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
-  ./bin/rails db:prepare
+  echo "Not creating the db now..."
+#  ./bin/rails db:prepare
 fi
 
 exec "${@}"

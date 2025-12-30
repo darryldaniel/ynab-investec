@@ -7,6 +7,13 @@ Rails.application.routes.draw do
   resource :password_reset
   resource :password
   resources :merchants, only: [:index, :show]
+  resources :tasks, only: [:index] do
+      collection do
+          post :sync_ynab_transactions
+          post :sync_ynab_payees
+          post :maintain_balances
+      end
+  end
 
   patch "merchants/ynab-mapping" => "merchants#update_ynab_mapping", as: :update_ynab_mapping_merchants
   patch "merchants/exclude_from_mapping" => "merchants#exclude_from_mapping", as: :exclude_from_merchants_mapping

@@ -13,6 +13,11 @@ servers:
 proxy:
   host: ynab-investec.darryldaniel.dev
   app_port: 3000
+  forward_headers: true
+  # If Cloudflare is doing TLS, you usually do not want Kamal doing TLS too:
+  ssl: false
+  # Optional: avoid proxy-level redirects while debugging
+  ssl_redirect: false
 
 # Credentials for your image host.
 registry:

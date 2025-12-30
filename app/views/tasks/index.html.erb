@@ -1,0 +1,14 @@
+<div class="flex flex-col gap-y-4">
+  <%= button_to "Sync YNAB Transactions",
+                sync_ynab_transactions_tasks_path,
+                class: "hover:bg-neutral-600 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+  %>
+  <%= button_to "Sync Payees",
+                sync_ynab_payees_tasks_path,
+                class: "hover:bg-neutral-600 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+  %>
+  <%= button_to "Maintain Balances",
+                maintain_balances_tasks_path,
+                class: "hover:bg-neutral-600 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+  %>
+</div>
